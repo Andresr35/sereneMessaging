@@ -13,3 +13,9 @@ exports.authenticateToken = function (req, res, next) {
     return next();
   });
 };
+
+exports.generateToken = (name) => {
+  const opts = {};
+  opts.expiresIn = "1h";
+  return jwt.sign({ name }, process.env.TOKEN_SECRET, opts);
+};
