@@ -82,8 +82,11 @@ const Chat = ({ url }) => {
 
   return (
     <div>
-      <Logout />
-      Chat
+      <nav>
+        <h1>Chat</h1>
+        <Logout />
+      </nav>
+
       <CreateMessage url={url} setMessages={setMessages} messages={messages} />
       <p>{error}</p>
       {Object.entries(grabUsers()).map(([id, { name, bio, gender, age }]) => (
@@ -92,8 +95,8 @@ const Chat = ({ url }) => {
 
           {name == openMessage && (
             <div>
-              <p>
-                {gender && <>Gender:{gender} </>} {age && <> Age:{age}</>}
+              <p className="stats">
+                {gender && <>Gender: {gender} </>} {age && <> Age: {age}</>}
               </p>
               {bio && <p>{bio}</p>}
               {messages
@@ -103,7 +106,7 @@ const Chat = ({ url }) => {
                     message.messenger.name == name
                 )
                 .map((message, index) => (
-                  <div
+                  <p
                     key={index}
                     className={
                       message.messenger.name == user.name
@@ -112,7 +115,7 @@ const Chat = ({ url }) => {
                     }
                   >
                     {message.message}
-                  </div>
+                  </p>
                 ))}
               <form onSubmit={(e) => sendMessage(e, id)}>
                 <input type="text" placeholder="Enter Message" name="message" />

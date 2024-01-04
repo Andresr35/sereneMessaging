@@ -34,7 +34,7 @@ const CreateMessage = ({ url, setMessages, messages }) => {
 
   return (
     <div>
-      Send New Message
+      <h3>Send New Message </h3>
       <form onSubmit={sendMessage}>
         <select
           name="recipient"

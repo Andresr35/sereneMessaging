@@ -28,11 +28,18 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  justify-content: center;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+nav {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
 }
 
 button {
@@ -47,7 +54,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #90ff74;
 }
 button:focus,
 button:focus-visible {
@@ -60,7 +67,7 @@ button:focus-visible {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #90ff74;
   }
   button {
     background-color: #f9f9f9;
@@ -69,7 +76,7 @@ button:focus-visible {
 
 .bubble {
   text-align: center;
-  background-color: #f9f9f9;
+  background-color: #e7e4e4;
   color: black;
   border-radius: 100px;
   padding: 10px;
@@ -77,11 +84,18 @@ button:focus-visible {
 }
 .bubble h4 {
   margin-top: 0;
+  margin-bottom: 5px;
 }
 .bubble div {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+.bubble p {
+  margin: 0;
+}
+.bubble .stats {
+  text-transform: capitalize;
 }
 .reciever {
   color: green;
