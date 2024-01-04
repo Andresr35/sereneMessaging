@@ -33,28 +33,29 @@ exports.signUp = asyncHandler(async (req, res, next) => {
 exports.logIn = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email && !password)
-    res.status(400).json({
+    return res.status(400).json({
       message: "Email or password were not provided",
       status: 400,
     });
   const user = await User.findOne({ email }).select("+password").exec();
   if (!user)
-    res.status(400).json({
+    return res.status(400).json({
       message: "User was not found",
       status: 400,
     });
   const match = await bcrypt.compare(password, user.password);
   if (!match)
-    res.status(400).json({
+    return res.status(400).json({
       message: "Incorrect Password",
       status: 400,
     });
   const token = jwt.generateToken(email);
+  delete user._doc.password;
   res.status(200).json({
     status: 200,
     message: "Logged in",
     token,
-    user: user.toJSON({ useProjection: true }),
+    user,
   });
 });
 
@@ -63,15 +64,27 @@ exports.getUserMessages = [
   asyncHandler(async (req, res, next) => {
     const { userID } = req.params;
     const { recieverID } = req.query;
+    const user = await User.findById(userID).exec();
+    if (!user)
+      return res.status(400).json({
+        status: 400,
+        message: "User not found",
+      });
     if (!recieverID) {
-      const messages = await Message.find({ messenger: userID })
-        .populate(["messenger", "receiver"])
+      const messages = await Message.find({
+        $or: [{ messenger: userID }, { reciever: userID }],
+      })
+        .populate(["messenger", "reciever"])
         .exec();
-      res.status(200).json({ message: "Success", status: 200, messages });
+      return res
+        .status(200)
+        .json({ message: "Success", status: 200, messages, user });
     }
     const messages = await Message.find({
-      messenger: userID,
-      reciever: recieverID,
+      $or: [
+        { messenger: userID, reciever: recieverID },
+        { messenger: recieverID, reciever: userID },
+      ],
     })
       .populate(["messenger", "reciever"])
       .exec();
@@ -80,6 +93,7 @@ exports.getUserMessages = [
       message: "Success",
       status: 200,
       messages,
+      user,
     });
   }),
 ];
@@ -107,3 +121,12 @@ exports.createMessage = [
     });
   }),
 ];
+
+exports.getUsers = asyncHandler(async (req, res, next) => {
+  const users = await User.find().exec();
+  res.status(200).json({
+    message: "Attatched are the users",
+    users,
+    status: 200,
+  });
+});
