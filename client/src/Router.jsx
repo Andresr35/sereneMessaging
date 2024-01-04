@@ -5,7 +5,9 @@ import Chat from "./pages/Chat";
 const Router = () => {
   const url =
     // eslint-disable-next-line no-undef
-    process.env.NODE_ENV == "development" ? "http://localhost:3000" : "";
+    process.env.NODE_ENV == "development"
+      ? "http://localhost:3000"
+      : "serenemessaging-production.up.railway.app";
 
   const router = createBrowserRouter([
     { path: "/", element: <Home url={url} /> },
