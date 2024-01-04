@@ -104,3 +104,9 @@ button:focus-visible {
 .messenger {
   text-align: left;
 }
+.home form {
+  width: 50%;
+}
+.home form * {
+  display: block;
+}

@@ -35,7 +35,7 @@ const SignUp = ({ url }) => {
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={signUp}>
         <p>{error}</p>
         <label>
@@ -102,7 +102,7 @@ const SignUp = ({ url }) => {
         </label>
         <button type="submit">Sign Up</button>
       </form>
-    </div>
+    </>
   );
 };
 SignUp.propTypes = {
